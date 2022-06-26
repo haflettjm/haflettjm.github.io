@@ -1,31 +1,22 @@
-### Hi there 👋
-### 🔭 I’m currently working on: Portfolio Website in NextJS!
-- 🔭 I’m currently working on: Portfolio Website in Vue with Kotlin/Ktor Backend!
-- 🌱 I’m currently learning: Kotlin, Javascript, Vue
-- 👯 I’m looking to collaborate on: Anything
-- 🤔 I’m looking for help with: Furthering my forray into web development!
-- 💬 Ask me about: Anything Music or History related!
-- 📫 How to reach me: hafletjm01@gmail.com
-- 😄 Pronouns: The Dude
-- ⚡ Fun fact: I'm a pizza snob (NY style baby sorry Chicago deep dish losers)
--   🧑🏼‍💻 Languages: Python (Fluent), Java (Practiced), Javascript (Practiced), React (Practiced), Node (Beginner)
+<h2 href="">Portfolio Template: https://github.com/Dorota1997/react-frontend-dev-portfolio</h2>
 
-<!--
-**haflettjm/haflettjm** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
-Here are some ideas to get you started:
+<strong>:crown: advantages</strong>
 
-- 🔭 I’m currently working on: Portfolio Website in Vue with Kotlin/Ktor Backend!
-- 🌱 I’m currently learning: Kotlin, Javascript, Vue
-- 👯 I’m looking to collaborate on: Anything
-- 🤔 I’m looking for help with: Furthering my forray into web development!
-- 💬 Ask me about: Anything Music or History related!
-- 📫 How to reach me: hafletjm01@gmail.com
-- 😄 Pronouns: The Dude
-- ⚡ Fun fact: I'm a pizza snob (NY style baby sorry Chicago deep dish losers)
-- 🧑🏼‍💻 Languages: Python (Fluent), Java (Practiced), Javascript (Practiced), React (Practiced), Node (Beginner), Kotlin (Journeyman)
+<img src="https://img.shields.io/badge/-mobile friendly-blue" alt="mobile friendly"/> &nbsp; <img src="https://img.shields.io/badge/-light/dark mode-blue" alt="light/dark mode"/> &nbsp; <img src="https://img.shields.io/badge/-json fetched data-blue" alt="json fetched data"/> &nbsp; <img src="https://img.shields.io/badge/-minimalistic-blue" alt="minimalistic"/> &nbsp; <img src="https://img.shields.io/badge/-expandable-blue" alt="expandable"/>
 
-Anyways thank you for listening to my TED talk this is my portfolio website
+<br/>
 
-=> Jacob Haflett 03/20/22
--->
+haflettjm.github.io
+Hi there 👋
+🔭 I’m currently working on: Portfolio Website in NextJS!
+
+    🔭 I’m currently working on: Portfolio Website in Vue with Kotlin/Ktor Backend!
+    🌱 I’m currently learning: Kotlin, Javascript, Vue
+    👯 I’m looking to collaborate on: Anything
+    🤔 I’m looking for help with: Furthering my forray into web development!
+    💬 Ask me about: Anything Music or History related!
+    📫 How to reach me: hafletjm01@gmail.com
+    😄 Pronouns: The Dude
+    ⚡ Fun fact: I’m a pizza snob (NY style baby sorry Chicago deep dish losers)
+    🧑🏼‍💻 Languages: Python (Fluent), Java (Practiced), Javascript (Practiced), React (Practiced), Node (Beginner)
