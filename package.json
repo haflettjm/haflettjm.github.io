@@ -1,6 +1,6 @@
 {
-  "name": "react-frontend-dev-portfolio",
-  "homepage": "https://hafletjm.github.io",
+  "name": "react-portfolio",
+  "homepage": "https://haflettjm.github.io",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
