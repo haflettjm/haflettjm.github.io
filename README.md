@@ -4,5 +4,6 @@
 
 ### **TODO**
 1. Install Nuxt and set up git -done-
-2. Add some basic content for homepage
-3. 
+2. Added Tailwind CSS and tested some layouts with NuxtJS
+3. Finish Basic Layout & Content
+4. 
