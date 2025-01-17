@@ -1,5 +1,28 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
+import { defineNuxtConfig } from "nuxt/config";
+
 export default defineNuxtConfig({
-  compatibilityDate: '2024-11-01',
-  devtools: { enabled: true }
-})
+  devtools: { enabled: true },
+
+  nitro: {
+    preset: "deno",
+  },
+
+  app: {
+    head: {
+      title: "Jacob Haflett",
+    },
+  },
+
+  css: ["~/assets/css/main.css"],
+
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
+
+  compatibilityDate: "2024-11-06",
+});
