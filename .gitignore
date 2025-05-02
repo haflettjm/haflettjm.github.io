@@ -1,24 +1,101 @@
-# Nuxt dev/build outputs
-.output
-.data
-.nuxt
-.nitro
-.cache
-dist
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
-# Node dependencies
-node_modules
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
 
-# Logs
-logs
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# Miscellaneous
+/.angular/cache
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+
+# System files
+.DS_Store
+Thumbs.db
+
+# === NODE + ANGULAR ===
+node_modules/
+dist/
+.angular/
+tmp/
+.cache/
+out-tsc/
+coverage/
+build/
+
+# Tailwind JIT cache (if using)
+.tailwindcache/
+
+# === ENV FILES ===
+.env
+.env.*.local
+
+# === LOG FILES ===
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 *.log
 
-# Misc
+# === SYSTEM FILES ===
 .DS_Store
-.fleet
-.idea
+Thumbs.db
+.idea/
+.vscode/
+*.swp
 
-# Local env files
-.env
-.env.*
-!.env.example
+# === SASS/TEMP FILES ===
+*.sass-cache
+*.scssc
+
+# === ANGULAR SSR/UNIVERSAL ===
+.server/
+browser/
+functions/
+
+# === GO CONTENT GENERATOR ===
+content-generator/go.sum
+content-generator/go.mod
+content-generator/bin/
+content-generator/*.exe
+content-generator/*.out
+*.test
+*.o
+
+# === GENERATED CONTENT ===
+*.html
+*.css
+*.js
+*.map
+
+# === OUTPUTS ===
+/public/
+/static/
