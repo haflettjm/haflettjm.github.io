@@ -4,9 +4,7 @@
     </div>
 </template>
 
-<script setup>
-// Leave blank for now — we’ll enhance this later with window tint, borders, header, etc.
-</script>
+<script setup></script>
 
 <style>
 .crt-effect {
