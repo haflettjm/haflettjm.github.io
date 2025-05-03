@@ -1,0 +1,46 @@
+import "tailwindcss" @layer base {
+    :root {
+        --crt-bg: #0d0d0d;
+        --crt-text: #f1f1f1;
+        --crt-text-shadow: 0 0 2px #ff69b4;
+        --crt-font: "Courier New", monospace;
+        --crt-scanline-color: rgba(255, 102, 0, 0.05);
+    }
+}
+body {
+    background-color: black;
+}
+.crt-effect {
+    background-color: var(--crt-bg);
+    color: var(--crt-text);
+    font-family: var(--crt-font);
+    text-shadow: var(--crt-text-shadow);
+    position: relative;
+    padding: 2rem;
+    overflow: hidden;
+    min-height: 100vh;
+}
+
+.crt-effect::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+        to bottom,
+        var(--crt-scanline-color) 0px,
+        var(--crt-scanline-color) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    z-index: 1;
+    mix-blend-mode: overlay;
+}
+
+.crt-effect * {
+    position: relative;
+    z-index: 2;
+}
