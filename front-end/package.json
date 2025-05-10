@@ -4,16 +4,24 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "concurrently \"nuxt dev\" \"tsc --noEmit --watch\"",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
     "@nuxtjs/tailwindcss": "^6.14.0",
+    "@tailwindcss/vite": "^4.1.6",
     "markdown-it": "^14.1.0",
     "nuxt": "^3.17.1",
+    "tailwindcss": "^3.4.17",
     "vue": "^3.5.13",
     "vue-router": "^4.5.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.17",
+    "concurrently": "^9.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
   }
 }

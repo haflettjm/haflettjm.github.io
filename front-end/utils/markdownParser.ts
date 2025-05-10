@@ -6,6 +6,6 @@ const md = new MarkdownIt({
   typographer: true, // Convert quotes & dashes into typographic versions
 });
 
-export function renderMarkdown(text: string): string {
-  return md.render(text);
+export function renderMarkdown(markdown: string): string {
+  return md.render(markdown);
 }
