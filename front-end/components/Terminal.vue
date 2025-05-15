@@ -1,38 +1,14 @@
 <template>
     <div
-        class="
-        w-full
-        h-full
-        text-green-400
-        font-mono
-        p-4
-        overflow-y-auto
-        font-mono
-        text-xs
-        sm:text-sm
-        md:text-base
-        leading-relaxed
-        break-words
-        whitespace-pre-wrap
-        "
+        class="w-full h-full text-green-400 font-mono p-4 overflow-y-auto font-mono text-xs sm:text-sm md:text-base leading-relaxed break-words whitespace-pre-wrap"
         ref="terminalRef"
         style="max-width: 100%; word-break: break-word"
-        >
+    >
         <div v-for="(entry, index) in history" :key="index">
             <div
                 v-if="entry.type === 'output'"
                 v-html="entry.html"
-                class="
-                prose
-                prose-invert
-                w-full
-                break-words
-                whitespace-pre-wrap
-                text-left
-                text-green-400
-                leading-relaxed
-                break-words
-                whitespace-pre-wrap "
+                class="prose prose-invert w-full break-words whitespace-pre-wrap text-left text-green-400 leading-relaxed break-words whitespace-pre-wrap"
                 style="word-break: break-word"
             ></div>
             <div v-else-if="entry.type === 'prompt'" class="mb-2">
@@ -55,6 +31,8 @@
 import { ref, nextTick } from "vue";
 import { renderMarkdown } from "../utils/markdownParser.ts";
 
+
+
 const history = ref([
     {
         type: "output",
@@ -65,52 +43,66 @@ const history = ref([
 const currentCommand = ref("");
 const terminalRef = ref(null);
 
+
+interface Command {
+  name: string;
+  description: string;
+  execute () => Promise<string>
+}
+
+const commandRegistry: Record<string, Command> ={
+  home: {
+    name: 'home',
+    description: 'Shows the homepage.',
+    execute: async () =>{
+      const res = await fetch('/content/home.md');
+      const text = await res.text();
+      return renderMarkdown(text);
+    }
+  },
+  help: {
+    name: 'help',
+    description: 'List all available commands.',
+    execute: async () =>{
+      const helpText = Object.values(commandRegistry)
+        .map(cmd => `- \`${cmd.name}\`: ${cmd.description}`)
+        .join('\n')
+      return renderMarkdown(`## Available Commands\n ${helpText}`)
+    }
+  },
+}
+
+
 async function handleCommand() {
     const cmd = currentCommand.value.trim();
     if (!cmd) return;
 
     history.value.push({ type: "prompt", command: cmd });
-    type CommandHandler = () => Promise<string>;
-    const commands: Record<string, CommandHandler> = {
-        home: async () => {
-            const res = await fetch("/content/home.md");
-            const text = await res.text();
-            return renderMarkdown(text);
-        },
-        help: async () => {
-            return renderMarkdown(
-                `# Available Commands\nj- \`home\`\n= \`help\``,
-            );
-        },
-        clear: async () => {
-            history.value = [];
-            return "";
-        },
-    };
 
-    const handler = commands[cmd];
+    const command = commandRegistry[cmd];
 
-    if (typeof handler === "function") {
-        const html = await handler();
-        if (html) {
-            history.value.push({ type: "output", html });
-        }
-    } else {
-        history.value.push({
-            type: "output",
-            html: `<p class="text-red-800">Command not found: <strong>${cmd}</strong></p>`,
-        });
+  if (command) {
+    const html = await command.execute()
+    if (html) {
+      history.value.push({ type: "output", html });
     }
-
-    currentCommand.value = "";
+  }
+  else{
+      history.value.push({
+        type: "output",
+        html: `<p class="text-red-800">Command not found <strong>${cmd}</strong></p>`,
+      })
+  }
+  currentCommand.value = "";
 
     await nextTick();
     terminalRef.value.scrollTop = terminalRef.value.scrollHeight;
 }
 </script>
 <style scoped>
-  pre, code {
-  white-space: pre-wrap;
-  word-break: break-word;
-  }
+pre,
+code {
+    white-space: pre-wrap;
+    word-break: break-word;
+}
 </style>
