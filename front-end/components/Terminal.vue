@@ -13,11 +13,11 @@
             ></div>
             <div v-else-if="entry.type === 'prompt'" class="mb-2">
                 <span class="muted-text">[10:34:56]</span>
-                <span> $ ~/: {{ entry.command }} </span>
+                <span><strong>$ ~/:</strong>{{ entry.command }} </span>
             </div>
         </div>
         <div class="flex items-center w-full">
-            <span class="mr-3">$ ~/</span>
+            <span class="mr-3"><strong>$ ~/:</strong></span>
             <input
                 v-model="currentCommand"
                 @keydown.enter="handleCommand"
@@ -28,10 +28,14 @@
     </div>
 </template>
 <script setup lang="ts">
-import { ref, nextTick } from "vue";
+import { onMounted, ref, nextTick, render } from "vue";
 import { renderMarkdown } from "../utils/markdownParser.ts";
 
-
+onMounted(async () => {
+    const defaultCmd = "home";
+    currentCommand.value = defaultCmd;
+    await handleCommand();
+});
 
 const history = ref([
     {
@@ -43,35 +47,69 @@ const history = ref([
 const currentCommand = ref("");
 const terminalRef = ref(null);
 
-
 interface Command {
-  name: string;
-  description: string;
-  execute () => Promise<string>
+    name: string;
+    description: string;
+    execute: () => Promise<string>;
+}
+function loadMarkdownPage(name: string): () => Promise<string> {
+    return async () => {
+        const res = await fetch(`/content/${name}.md`);
+        const text = await res.text();
+        return renderMarkdown(text);
+    };
 }
 
-const commandRegistry: Record<string, Command> ={
-  home: {
-    name: 'home',
-    description: 'Shows the homepage.',
-    execute: async () =>{
-      const res = await fetch('/content/home.md');
-      const text = await res.text();
-      return renderMarkdown(text);
-    }
-  },
-  help: {
-    name: 'help',
-    description: 'List all available commands.',
-    execute: async () =>{
-      const helpText = Object.values(commandRegistry)
-        .map(cmd => `- \`${cmd.name}\`: ${cmd.description}`)
-        .join('\n')
-      return renderMarkdown(`## Available Commands\n ${helpText}`)
-    }
-  },
-}
-
+const commandRegistry: Record<string, Command> = {
+    home: {
+        name: "home",
+        description: "Shows the homepage.",
+        execute: loadMarkdownPage("home"),
+    },
+    help: {
+        name: "help",
+        description: "List all available commands.",
+        execute: async () => {
+            const helpText = Object.values(commandRegistry)
+                .map((cmd) => `- \`${cmd.name}\`: ${cmd.description}`)
+                .join("\n");
+            return renderMarkdown(`## Available Commands\n ${helpText}`);
+        },
+    },
+    clear: {
+        name: "clear",
+        description: "Clear the screen history of all previous commands.",
+        execute: () => {
+            history.value = [];
+        },
+    },
+    about: {
+        name: "about",
+        description: "Clear the screen history of all previous commands.",
+        execute: loadMarkdownPage("about"),
+    },
+    contact: {
+        name: "contact",
+        description: "Ways to get in touch with me directly.",
+        execute: loadMarkdownPage("contact"),
+    },
+    skills: {
+        name: "skills",
+        description: "Technologies and domains I specialize in.",
+        execute: loadMarkdownPage("skills"),
+    },
+    resume: {
+        name: "resume",
+        description: "View or download my full professional resume.",
+        execute: loadMarkdownPage("resume"),
+    },
+    projects: {
+        name: "projects",
+        description:
+            "Explore featured work with tools, descriptions, and links.",
+        execute: loadMarkdownPage("projects"),
+    },
+};
 
 async function handleCommand() {
     const cmd = currentCommand.value.trim();
@@ -81,19 +119,18 @@ async function handleCommand() {
 
     const command = commandRegistry[cmd];
 
-  if (command) {
-    const html = await command.execute()
-    if (html) {
-      history.value.push({ type: "output", html });
+    if (command) {
+        const html = await command.execute();
+        if (html) {
+            history.value.push({ type: "output", html });
+        }
+    } else {
+        history.value.push({
+            type: "output",
+            html: `<p class="text-red-800">Command not found <strong>${cmd}</strong></p>`,
+        });
     }
-  }
-  else{
-      history.value.push({
-        type: "output",
-        html: `<p class="text-red-800">Command not found <strong>${cmd}</strong></p>`,
-      })
-  }
-  currentCommand.value = "";
+    currentCommand.value = "";
 
     await nextTick();
     terminalRef.value.scrollTop = terminalRef.value.scrollHeight;
