@@ -19,6 +19,7 @@
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^22.15.17",
     "concurrently": "^9.1.2",
     "ts-node": "^10.9.2",

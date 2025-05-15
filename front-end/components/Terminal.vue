@@ -1,14 +1,38 @@
 <template>
     <div
-        class="w-full h-full text-green-400 font-mono p-4 overflow-y-auto font-mono text-xs sm:text-sm md:text-base leading-relaxed"
+        class="
+        w-full
+        h-full
+        text-green-400
+        font-mono
+        p-4
+        overflow-y-auto
+        font-mono
+        text-xs
+        sm:text-sm
+        md:text-base
+        leading-relaxed
+        break-words
+        whitespace-pre-wrap
+        "
         ref="terminalRef"
-        style="width: 80ch; max-width: 100%; word-break: break-word"
-    >
+        style="max-width: 100%; word-break: break-word"
+        >
         <div v-for="(entry, index) in history" :key="index">
             <div
                 v-if="entry.type === 'output'"
                 v-html="entry.html"
-                class="w-full break-words whitespace-pre-wrap text-left text-green-400 leading-relaxed"
+                class="
+                prose
+                prose-invert
+                w-full
+                break-words
+                whitespace-pre-wrap
+                text-left
+                text-green-400
+                leading-relaxed
+                break-words
+                whitespace-pre-wrap "
                 style="word-break: break-word"
             ></div>
             <div v-else-if="entry.type === 'prompt'" class="mb-2">
@@ -84,3 +108,9 @@ async function handleCommand() {
     terminalRef.value.scrollTop = terminalRef.value.scrollHeight;
 }
 </script>
+<style scoped>
+  pre, code {
+  white-space: pre-wrap;
+  word-break: break-word;
+  }
+</style>
