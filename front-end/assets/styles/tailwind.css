@@ -7,8 +7,17 @@ import "tailwindcss" @layer base {
         --crt-scanline-color: rgba(255, 102, 0, 0.05);
     }
 }
+
+@layer utilities {
+  .text-crt {
+    font-size: clamp(0.5rem, calc(100vw / 80), 1rem);
+  }
+}
+
 body {
     background-color: black;
+    width: 100vw;
+    height: 100vh;
 }
 .crt-effect {
     background-color: var(--crt-bg);

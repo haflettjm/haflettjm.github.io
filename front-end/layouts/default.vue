@@ -1,5 +1,5 @@
 <template>
-    <div class="crt-effect">
+    <div class="crt-effect min-h-screen h-screen w-full">
         <NuxtPage />
     </div>
 </template>

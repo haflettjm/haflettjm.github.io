@@ -1,75 +1,81 @@
-# Nuxt Minimal Starter
+# haflettjm.github.io
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+This is the personal portfolio site for **Jacob Haflett**, built with:
 
-## Setup
+- 🧠 [Nuxt 3](https://nuxt.com) – Frontend framework (Vue-based)
+- 🎨 [Tailwind CSS v4](https://tailwindcss.com) – Utility-first styling
+- ⚙️ [Deno](https://deno.land) – Used for package management and tooling
+- 📝 Custom CSS variables – For dynamic theming and terminal-inspired CRT effects
+- 🧾 Markdown-based content – Served via Go backend (WIP)
 
-Make sure to install dependencies:
+---
 
-```bash
-# npm
-npm install
+## 🖥️ Project Structure
 
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
+```
+root/
+├── assets/
+│   └── css/
+│       └── main.css            # Tailwind + custom CRT styles
+├── components/                 # Nuxt components
+├── layouts/
+│   └── default.vue             # Global layout with CRT base style
+├── pages/
+│   └── index.vue               # Home page content
+├── public/                     # Static assets
+├── front-end/                 # Nuxt app source (same project, different folder name)
+├── back-end/                  # Go server (WIP, not part of Nuxt build)
+│   └── content-generator/     # Markdown to JSON static content gen (WIP)
+├── nuxt.config.ts             # Nuxt configuration
+├── deno.json                  # Deno configuration
+└── tsconfig.json              # TypeScript config
 ```
 
-## Development Server
+---
 
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
+## 🧪 Development
 
 ```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
+# Run the Nuxt frontend dev server (from project root)
+deno task dev
 ```
 
-Locally preview production build:
+Make sure you have `deno.json` or `deno.jsonc` configured like:
 
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
+```jsonc
+{
+  "tasks": {
+    "dev": "npx nuxt dev"
+  }
+}
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+---
+
+## 🎨 Styling
+
+- All styles and CRT effects are defined in `assets/css/main.css`
+- Key custom properties:
+  - `--crt-bg`: background color
+  - `--crt-text`: text color
+  - `--crt-text-shadow`: glow effect
+  - `--crt-scanline-color`: scanline stripe overlay
+  - `--crt-font`: monospace font
+
+---
+
+## 📦 TODO / In Progress
+
+- [x] Configure Tailwind and Nuxt with Deno
+- [ ] Apply CRT terminal styling
+- [ ] Hook up Go backend to serve content
+- [ ] Generate static blog/portfolio entries via Markdown
+- [ ] Integrate resume parser into homepage
+- [ ] Add routing and page transitions
+- [ ] Improve mobile view and accessibility
+
+---
+
+## 🤘 Philosophy
+
+Minimalist, retro-futuristic, accessible, and fast. A terminal-inspired UI for developers that want substance over fluff.

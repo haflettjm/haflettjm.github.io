@@ -1,14 +1,37 @@
+<script setup>
+import Terminal from "../components/Terminal.vue";
+</script>
+
 <template>
-    <div class="terminal-window justify-center align-center">
-        <div class="terminal-header text-center">
-            <span class="command-text text-blue-50">echo "Hello, World!"</span>
-            <span class="muted-text">[12:34:56]</span>
+    <div class="
+        terminal-window
+        justify-center
+        items-center
+        min-h-screen
+        w-screen
+        h-screen flex
+        flex-col
+        ">
+        <div class="terminal-header">
+            <h1>TTY - Admin </h1>
         </div>
-        <div class="terminal-body">
-            <div class="highlight-border">
-                <div class="markdown-highlight">Hello, World!</div>
+        <main class="
+            terminal-body
+            w-11/12
+            h-90vh
+            border-2
+            items-center
+            mx-auto
+            my-6
+            p-4
+            bg-gray-700
+            rounded-sm
+            border-green-950
+            ">
+            <div class="w-full" style=" font-size: calc(100vw / 80); width: 90vw; height: 85vh;">
+                <Terminal />
             </div>
-        </div>
+        </main>
     </div>
 </template>
 <style scoped>
