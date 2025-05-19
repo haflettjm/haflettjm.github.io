@@ -7,6 +7,7 @@
     "dev": "concurrently \"nuxt dev\" \"tsc --noEmit --watch\"",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
+    "deploy": "gh-pages -d .output/public",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
@@ -22,6 +23,7 @@
     "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^22.15.17",
     "concurrently": "^9.1.2",
+    "gh-pages": "^6.3.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }
