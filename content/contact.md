@@ -9,7 +9,7 @@ Feel free to reach out using any of the methods below.
 
 - **Email**: [jacobhaflett@icloud.com](mailto:jacobhaflett@icloud.com)
 - **GitHub**: [haflettjm](https://github.com/haflettjm)
-- **Phone**: [+1 (859) 261-0084](tel:+18592610084)
+- **Phone**: [+1 (859) 361-0084](tel:+18593610084)
 - **Location**: New York, USA
 
 ---
