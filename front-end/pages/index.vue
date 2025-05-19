@@ -28,7 +28,10 @@ import Terminal from "../components/Terminal.vue";
             rounded-sm
             border-green-950
             ">
-            <div class="w-full" style=" font-size: calc(100vw / 80); width: 90vw; height: 85vh;">
+            <div class="w-full" style="
+              font-size: calc(100vw / 80);
+              width: 90vw;
+              height: 85vh;">
                 <Terminal />
             </div>
         </main>

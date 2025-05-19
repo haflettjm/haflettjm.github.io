@@ -1,6 +1,6 @@
 <template>
     <div
-        class="w-full h-full text-green-400 font-mono p-4 overflow-y-auto font-mono text-xs sm:text-sm md:text-base leading-relaxed break-words whitespace-pre-wrap"
+        class="just w-full h-full text-green-400 font-mono p-4 overflow-y-auto font-mono text-xs sm:text-sm md:text-base leading-relaxed break-words whitespace-pre-wrap"
         ref="terminalRef"
         style="max-width: 100%; word-break: break-word"
     >
@@ -20,7 +20,10 @@
             <span class="mr-3"><strong>$ ~/:</strong></span>
             <input
                 v-model="currentCommand"
+                ref="inputRef"
                 @keydown.enter="handleCommand"
+                @keydown.up.prevent="navigateHistory('up')"
+                @keydown.down.prevent="navigateHistory('down')"
                 class="bg-transparent border-none outline-none text-green-400 flex-1"
                 autofocus
             />
@@ -31,8 +34,11 @@
 import { onMounted, ref, nextTick, render } from "vue";
 import { renderMarkdown } from "../utils/markdownParser.ts";
 
+const inputRef = ref<HTMLInputElement | null>(null)
+
 onMounted(async () => {
     const defaultCmd = "home";
+    inputRef.value?.focus()
     currentCommand.value = defaultCmd;
     await handleCommand();
 });
@@ -43,6 +49,37 @@ const history = ref([
         html: '<p>Welcome to my portfolio! Type "help" for a list of commands</p>',
     },
 ]);
+
+const historyIndex = ref<number | null>(null)
+const commandHistory = computed(() =>
+  history.value.filter(entry => entry.type === 'prompt').map(entry => entry.command)
+)
+
+
+function navigateHistory(direction: 'up' | 'down') {
+  if (commandHistory.value.length === 0) return
+
+  if (direction === 'up') {
+    if (historyIndex.value === null) {
+      historyIndex.value = commandHistory.value.length - 1
+    } else if (historyIndex.value > 0) {
+      historyIndex.value--
+    }
+  } else if (direction === 'down') {
+    if (historyIndex.value === null) return
+    if (historyIndex.value < commandHistory.value.length - 1) {
+      historyIndex.value++
+    } else {
+      historyIndex.value = null
+      currentCommand.value = ''
+      return
+    }
+  }
+
+  currentCommand.value = commandHistory.value[historyIndex.value!] ?? ''
+}
+
+
 
 const currentCommand = ref("");
 const terminalRef = ref(null);
@@ -131,7 +168,7 @@ async function handleCommand() {
         });
     }
     currentCommand.value = "";
-
+    historyIndex.value = null
     await nextTick();
     terminalRef.value.scrollTop = terminalRef.value.scrollHeight;
 }
