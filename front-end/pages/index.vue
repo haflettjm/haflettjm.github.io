@@ -1,5 +1,8 @@
-<script setup>
+<script setup lang ="ts">
 import Terminal from "../components/Terminal.vue";
+import { ref } from "vue"
+
+const activeCommand = ref("home")
 </script>
 
 <template>
@@ -12,8 +15,8 @@ import Terminal from "../components/Terminal.vue";
         h-screen flex
         flex-col
         ">
-        <div class="terminal-header">
-            <h1>TTY - Admin </h1>
+        <div class="terminal-header text-center text-pink-500 font-mono tracking-wider">
+          <h1>TTY - Admin - /{{ activeCommand }}</h1>
         </div>
         <main class="
             terminal-body
@@ -32,7 +35,7 @@ import Terminal from "../components/Terminal.vue";
               font-size: calc(100vw / 80);
               width: 90vw;
               height: 85vh;">
-                <Terminal />
+              <Terminal @commandExecuted="activeCommand = $event" />
             </div>
         </main>
     </div>

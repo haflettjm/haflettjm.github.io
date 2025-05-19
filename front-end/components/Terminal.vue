@@ -34,7 +34,14 @@
 import { onMounted, ref, nextTick, render } from "vue";
 import { renderMarkdown } from "../utils/markdownParser.ts";
 
+const activeCommand = ref<string>('home')
+
 const inputRef = ref<HTMLInputElement | null>(null)
+const emit = defineEmits(['commandExecuted'])
+const historyIndex = ref<number | null>(null)
+const commandHistory = computed(() =>
+  history.value.filter(entry => entry.type === 'prompt').map(entry => entry.command)
+)
 
 onMounted(async () => {
     const defaultCmd = "home";
@@ -50,10 +57,7 @@ const history = ref([
     },
 ]);
 
-const historyIndex = ref<number | null>(null)
-const commandHistory = computed(() =>
-  history.value.filter(entry => entry.type === 'prompt').map(entry => entry.command)
-)
+
 
 
 function navigateHistory(direction: 'up' | 'down') {
@@ -160,12 +164,15 @@ async function handleCommand() {
         const html = await command.execute();
         if (html) {
             history.value.push({ type: "output", html });
+            emit('commandExecuted', cmd)
         }
     } else {
         history.value.push({
             type: "output",
             html: `<p class="text-red-800">Command not found <strong>${cmd}</strong></p>`,
         });
+
+        emit('commandExecuted', '404')
     }
     currentCommand.value = "";
     historyIndex.value = null
