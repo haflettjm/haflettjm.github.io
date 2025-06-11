@@ -1,26 +1,39 @@
+# About Me
 
-# About This Site
+Hi, I’m **Jacob Haflett** — a DevOps engineer, cloud architect, and full-stack infrastructure builder with a passion for doing things the right way, at scale, and under pressure.
 
-This website is not just a portfolio—it's a project in itself.
+## 🧠 My Engineering Philosophy
 
-The site functions as a custom content renderer, built from the ground up to dynamically generate and serve its own pages using structured data. Each page you see is rendered through a bespoke system that ingests content definitions (written in JSON, Markdown, or custom formats) and compiles them into fully interactive, styled frontend views.
+I build with purpose: efficient, reliable, reproducible infrastructure backed by strong automation and observable performance. Whether it’s Kubernetes on bare metal or cost-optimized cloud pipelines, I approach every project like it’s going to production because eventually, it will.
 
-## Why Build It This Way?
+I value:
+• **Simplicity in tooling**
+• **Clarity in documentation**
+• **Zero-waste automation**
+• **Infrastructure that explains itself**
 
-Instead of relying on traditional CMS tools or static site generators, this site was designed to:
+## 🔧 What I Work With
 
-- Demonstrate full-stack control, from data modeling to UI rendering.
-- Provide a customizable and extensible framework for showcasing projects, blog posts, and ideas.
-- Explore how modern frontends can act as interpreters of structured content, not just static documents.
+• Building and scaling cloud-agnostic infrastructure  
+• Automating environments with Terraform, Helm, and Ansible  
+• Running Kubernetes clusters across hybrid setups  
+• Monitoring systems with Prometheus and Grafana  
+• Writing robust backend systems in **Go** and **Python**  
+• Managing pipelines in GitHub Actions, GitLab, and Jenkins  
+• Reducing cloud costs through right-sizing, visibility, and rethinking architecture
 
-## Under the Hood
+## 🧑‍💻 Why I Built This Portfolio
 
-The site includes:
+This terminal-style portfolio is a live demonstration of what I care about most:  
+Clean interfaces  
+Fast feedback  
+Real infrastructure-backed thinking  
+A bit of fun and aesthetic flair
 
-- A **custom parser and renderer** for DOM-like content structures.
-- A **self-hosted data model**, where each page is defined as a set of nested components and attributes.
-- Support for theming, styling, and dynamic UI behavior without hardcoding individual pages.
+## ⚡ What’s Next
 
-## TL;DR
+I’m always building — whether it’s internal tools, open-source utilities, or the next piece of my homegrown Kubernetes lab. If you want to collaborate, hire, or just talk infrastructure, I’d love to hear from you.
 
-This site is both a portfolio and the engine that displays it. A meta-project that renders itself.
+```bash
+$~ contact
+```

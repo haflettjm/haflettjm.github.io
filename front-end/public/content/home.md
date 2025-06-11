@@ -1,7 +1,7 @@
 # Welcome to **Jacob Haflett**’s Portfolio
 > ⚙️ **DevOps Engineer • Cloud Architect • Backend Developer**
 ---
-Welcome to my **interactive** terminal portfolio.
+Welcome to my **interactive** terminal portfolio it is a **markdown** **static-site** renderer.
 Use the command line below to navigate and explore my work.
 ## Available Sections
 - **`about`** – Who I am, what I believe in, and how I work
