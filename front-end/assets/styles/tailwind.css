@@ -62,3 +62,17 @@ a:visited {
     position: relative;
     z-index: 2;
 }
+:global(a) {
+    color: #ff69b4 !important;
+    text-shadow: 0 0 2px #ff69b4 !important;
+}
+
+:global(a:hover) {
+    color: #ff85c1 !important;
+    text-shadow: 0 0 4px #ff85c1 !important;
+}
+
+:global(a:visited) {
+    color: #ff1493 !important;
+    text-shadow: 0 0 2px #ff1493 !important;
+}

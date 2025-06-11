@@ -142,4 +142,23 @@ code {
     white-space: pre-wrap;
     word-break: break-word;
 }
+:global(a.text-green-400) {
+    color: #ff69b4 !important;
+    text-shadow: 0 0 2px #ff69b4 !important;
+}
+
+:global(a.text-green-400:hover) {
+    color: #ff85c1 !important;
+    text-shadow: 0 0 4px #ff85c1 !important;
+}
+
+:global(a.text-green-400:visited) {
+    color: #ff1493 !important;
+    text-shadow: 0 0 2px #ff1493 !important;
+}
+:root a[class*="text-green-400"] {
+    color: #ff69b4 !important;
+    text-shadow: 0 0 2px #ff69b4 !important;
+    text-decoration: underline !important;
+}
 </style>
