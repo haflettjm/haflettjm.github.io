@@ -1,1 +1,0 @@
-import{_ as t,t as c,v as n,z as o,P as s}from"./BWv33htR.js";const _={},r={class:"crt-effect min-h-screen h-screen w-full"};function a(f,l){const e=s;return n(),c("div",r,[o(e)])}const m=t(_,[["render",a]]);export{m as default};
