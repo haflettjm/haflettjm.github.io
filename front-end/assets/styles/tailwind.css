@@ -5,19 +5,28 @@ import "tailwindcss" @layer base {
         --crt-text-shadow: 0 0 2px #ff69b4;
         --crt-font: "Courier New", monospace;
         --crt-scanline-color: rgba(255, 102, 0, 0.05);
+        --link-color: #9b5de5;
+        --link-visited: #6a0dad;
     }
 }
 
 @layer utilities {
-  .text-crt {
-    font-size: clamp(0.5rem, calc(100vw / 80), 1rem);
-  }
+    .text-crt {
+        font-size: clamp(0.5rem, calc(100vw / 80), 1rem);
+    }
 }
 
 body {
     background-color: black;
     width: 100vw;
     height: 100vh;
+}
+a {
+    color: var(--link-color);
+}
+
+a:visited {
+    color: var(--link-visited);
 }
 .crt-effect {
     background-color: var(--crt-bg);
