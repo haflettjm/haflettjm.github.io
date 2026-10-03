@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /* Draws public/portrait.jpg as ASCII on desktop only. The box is sized in CSS so nothing shifts. */
-const COLS = 44;
-const ROWS = 33;
+const COLS = 58;
+const ROWS = 44;
 const RAMP = " .,:;-=+*#%@";
 const el = ref<HTMLPreElement | null>(null);
 

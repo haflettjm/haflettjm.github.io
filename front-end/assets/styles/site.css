@@ -351,9 +351,9 @@ a:hover {
   display: block;
   margin: 0;
   padding: var(--space-3);
-  width: calc(44 * (1ch + 1px) + 2 * var(--space-3));
+  width: calc(58 * (1ch + 1px) + 2 * var(--space-3));
   max-width: 100%;
-  height: calc(33 * 9px + 2 * var(--space-3));
+  height: calc(44 * 9px + 2 * var(--space-3));
   overflow: hidden;
   font-family: var(--font-mono);
   font-size: 9px;
@@ -671,4 +671,13 @@ a:hover {
 
 .hero__side > * + * {
   margin-top: var(--space-4);
+}
+
+.card .role-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(5.5rem, 1fr));
+  gap: var(--space-3) var(--space-4);
+}
+.contact .section__title {
+  margin-bottom: 0;
 }
