@@ -121,7 +121,7 @@ function renderGpu(el: HTMLElement, img: HTMLImageElement): boolean {
     };
     const drawAtlas = () => {
       ax.clearRect(0, 0, atlas.width, atlas.height);
-      ax.fillStyle = "#fff";
+      ax.fillStyle = "white";
       ax.textBaseline = "middle";
       ax.textAlign = "center";
       ax.font = "700 30px 'JetBrains Mono', ui-monospace, monospace";
