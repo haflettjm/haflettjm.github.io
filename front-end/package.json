@@ -8,11 +8,14 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "verify": "node scripts/verify.mjs",
+    "resume:pdf": "node scripts/make-resume-pdf.mjs"
   },
   "dependencies": {
     "@nuxtjs/tailwindcss": "^6.14.0",
     "@tailwindcss/vite": "^4.1.6",
+    "gsap": "^3.15.0",
     "markdown-it": "^14.1.0",
     "nuxt": "^3.17.1",
     "tailwindcss": "^3.4.17",
@@ -20,11 +23,13 @@
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@tailwindcss/typography": "^0.5.16",
     "@types/markdown-it": "^14.1.2",
     "@types/node": "^22.15.17",
     "concurrently": "^9.1.2",
     "gh-pages": "^6.3.0",
+    "playwright-core": "^1.63.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }

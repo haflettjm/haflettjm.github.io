@@ -1,78 +1,66 @@
-import "tailwindcss" @layer base {
-    :root {
-        --crt-bg: #0d0d0d;
-        --crt-text: #f1f1f1;
-        --crt-text-shadow: 0 0 2px #ff69b4;
-        --crt-font: "Courier New", monospace;
-        --crt-scanline-color: rgba(255, 102, 0, 0.05);
-        --link-color: #9b5de5;
-        --link-visited: #6a0dad;
-    }
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@layer utilities {
-    .text-crt {
-        font-size: clamp(0.5rem, calc(100vw / 80), 1rem);
-    }
-}
+/*
+ * Design tokens. This is the only place raw color values live.
+ * Direction: the Open Design CRT look (dark, pink and green), calmed down so
+ * long-form text stays readable. Neon is for accents, never for body copy.
+ */
+:root {
+  /* surfaces */
+  --bg: #0c0b0f;
+  --surface: #14131a;
+  --surface-2: #1b1a23;
+  --line: #2d2b37;
+  --line-strong: #46435a;
 
-body {
-    background-color: black;
-    width: 100vw;
-    height: 100vh;
-}
-a {
-    color: var(--link-color);
-}
+  /* text (all pass 7:1 on --bg and --surface) */
+  --text: #ecebf0;
+  --muted: #b7b3c0;
 
-a:visited {
-    color: var(--link-visited);
-}
-.crt-effect {
-    background-color: var(--crt-bg);
-    color: var(--crt-text);
-    font-family: var(--crt-font);
-    text-shadow: var(--crt-text-shadow);
-    position: relative;
-    padding: 2rem;
-    overflow: hidden;
-    min-height: 100vh;
-}
+  /* accents */
+  --pink: #ff8ac7;
+  --pink-strong: #ff5fb2;
+  --green: #5ee08f;
+  --warn: #f0cf6a;
+  --on-accent: #0c0b0f;
 
-.crt-effect::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    background-image: repeating-linear-gradient(
-        to bottom,
-        var(--crt-scanline-color) 0px,
-        var(--crt-scanline-color) 1px,
-        transparent 1px,
-        transparent 2px
-    );
-    z-index: 1;
-    mix-blend-mode: overlay;
-}
+  /* effects (alpha lives here so components never write raw colors) */
+  --glow-pink: 0 0 18px rgb(255 95 178 / 0.4);
+  --glow-green: 0 0 14px rgb(94 224 143 / 0.35);
+  --scan: rgb(255 120 60 / 0.04);
+  --veil: rgb(12 11 15 / 0.82);
 
-.crt-effect * {
-    position: relative;
-    z-index: 2;
-}
-:global(a) {
-    color: #ff69b4 !important;
-    text-shadow: 0 0 2px #ff69b4 !important;
-}
+  /* type families (system stacks: no network requests, no layout shift) */
+  --font-mono: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
 
-:global(a:hover) {
-    color: #ff85c1 !important;
-    text-shadow: 0 0 4px #ff85c1 !important;
-}
+  /* type scale */
+  --fs-xs: 0.8125rem;
+  --fs-sm: 0.9375rem;
+  --fs-base: 1rem;
+  --fs-md: 1.125rem;
+  --fs-lg: 1.375rem;
+  --fs-xl: clamp(1.5rem, 1rem + 1.6vw, 2.125rem);
+  --fs-hero: clamp(2.25rem, 1.2rem + 4vw, 4rem);
+  --lh-body: 1.6;
+  --lh-tight: 1.15;
 
-:global(a:visited) {
-    color: #ff1493 !important;
-    text-shadow: 0 0 2px #ff1493 !important;
+  /* spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 5rem;
+
+  /* shape */
+  --radius: 6px;
+  --max: 70rem;
+  --measure: 68ch;
 }

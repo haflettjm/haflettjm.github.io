@@ -1,164 +1,122 @@
-<template>
-    <div
-        class="w-full h-full text-green-400 font-mono p-4 overflow-y-auto font-mono text-xs sm:text-sm md:text-base leading-relaxed break-words whitespace-pre-wrap"
-        ref="terminalRef"
-        style="max-width: 100%; word-break: break-word"
-    >
-        <div v-for="(entry, index) in history" :key="index">
-            <div
-                v-if="entry.type === 'output'"
-                v-html="entry.html"
-                class="prose prose-invert w-full break-words whitespace-pre-wrap text-left text-green-400 leading-relaxed break-words whitespace-pre-wrap"
-                style="word-break: break-word"
-            ></div>
-            <div v-else-if="entry.type === 'prompt'" class="mb-2">
-                <span class="muted-text">[10:34:56]</span>
-                <span><strong>$ ~/:</strong>{{ entry.command }} </span>
-            </div>
-        </div>
-        <div class="flex items-center w-full">
-            <span class="mr-3"><strong>$ ~/:</strong></span>
-            <input
-                v-model="currentCommand"
-                @keydown.enter="handleCommand"
-                class="bg-transparent border-none outline-none text-green-400 flex-1"
-                autofocus
-            />
-        </div>
-    </div>
-</template>
 <script setup lang="ts">
-import { onMounted, ref, nextTick, render } from "vue";
-import { renderMarkdown } from "../utils/markdownParser.ts";
+import { profile } from "~/content/profile";
+import { experience } from "~/content/experience";
+import { projects } from "~/content/projects";
+import { skillGroups } from "~/content/skills";
+import { renderMarkdown } from "~/utils/markdownParser";
 
-onMounted(async () => {
-    const defaultCmd = "home";
-    currentCommand.value = defaultCmd;
-    await handleCommand();
-});
-
-const history = ref([
-    {
-        type: "output",
-        html: '<p>Welcome to my portfolio! Type "help" for a list of commands</p>',
-    },
-]);
-
-const currentCommand = ref("");
-const terminalRef = ref(null);
-
-interface Command {
-    name: string;
-    description: string;
-    execute: () => Promise<string>;
-}
-function loadMarkdownPage(name: string): () => Promise<string> {
-    return async () => {
-        const res = await fetch(`/content/${name}.md`);
-        const text = await res.text();
-        return renderMarkdown(text);
-    };
+interface Line {
+  kind: "in" | "out";
+  html: string;
 }
 
-const commandRegistry: Record<string, Command> = {
-    home: {
-        name: "home",
-        description: "Shows the homepage.",
-        execute: loadMarkdownPage("home"),
-    },
-    help: {
-        name: "help",
-        description: "List all available commands.",
-        execute: async () => {
-            const helpText = Object.values(commandRegistry)
-                .map((cmd) => `- \`${cmd.name}\`: ${cmd.description}`)
-                .join("\n");
-            return renderMarkdown(`## Available Commands\n ${helpText}`);
-        },
-    },
-    clear: {
-        name: "clear",
-        description: "Clear the screen history of all previous commands.",
-        execute: () => {
-            history.value = [];
-        },
-    },
-    about: {
-        name: "about",
-        description: "Clear the screen history of all previous commands.",
-        execute: loadMarkdownPage("about"),
-    },
-    contact: {
-        name: "contact",
-        description: "Ways to get in touch with me directly.",
-        execute: loadMarkdownPage("contact"),
-    },
-    skills: {
-        name: "skills",
-        description: "Technologies and domains I specialize in.",
-        execute: loadMarkdownPage("skills"),
-    },
-    resume: {
-        name: "resume",
-        description: "View or download my full professional resume.",
-        execute: loadMarkdownPage("resume"),
-    },
-    projects: {
-        name: "projects",
-        description:
-            "Explore featured work with tools, descriptions, and links.",
-        execute: loadMarkdownPage("projects"),
-    },
+const open = useState<boolean>("terminal-open", () => false);
+const dlg = ref<HTMLDialogElement | null>(null);
+const input = ref<HTMLInputElement | null>(null);
+const out = ref<HTMLElement | null>(null);
+const cmd = ref("");
+const lines = ref<Line[]>([{ kind: "out", html: "Type <b>help</b> for commands." }]);
+
+const esc = (s: string) =>
+  s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c] as string);
+const rows = (items: string[]) => items.map(esc).join("<br>");
+
+function push(html: string, kind: Line["kind"] = "out") {
+  lines.value.push({ kind, html });
+  nextTick(() => out.value?.scrollTo({ top: out.value.scrollHeight }));
+}
+
+const commands: Record<string, () => Promise<string> | string> = {
+  help: () =>
+    rows([
+      "about       who I am and how I work",
+      "projects    what I have built",
+      "experience  roles and impact",
+      "skills      what I work with",
+      "contact     how to reach me",
+      "clear       clear the screen",
+    ]),
+  about: async () => renderMarkdown(await (await fetch("/content/about.md")).text()),
+  projects: () => rows(projects.map((p) => `${p.title} [${p.status}] ${p.blurb}`)),
+  experience: () => rows(experience.map((r) => `${r.when}  ${r.title}, ${r.org}`)),
+  skills: () => rows(skillGroups.map((g) => `${g.title}: ${g.skills.map((s) => s.name).join(", ")}`)),
+  contact: () =>
+    `Email <a class="md-link" href="${profile.links.email}">${esc(profile.email)}</a><br>` +
+    `GitHub <a class="md-link" href="${profile.links.github}" target="_blank" rel="noopener">github.com/haflettjm</a><br>` +
+    `Resume <a class="md-link" href="${profile.links.resume}">PDF</a>`,
 };
 
-async function handleCommand() {
-    const cmd = currentCommand.value.trim();
-    if (!cmd) return;
+async function run() {
+  const raw = cmd.value.trim();
+  cmd.value = "";
+  if (!raw) return;
+  push(esc(`visitor@haflett:~$ ${raw}`), "in");
+  const name = raw.split(/\s+/)[0].toLowerCase();
+  if (name === "clear") {
+    lines.value = [];
+    return;
+  }
+  const fn = commands[name];
+  if (!fn) {
+    push(`command not found: ${esc(name)}. Try <b>help</b>.`);
+    return;
+  }
+  try {
+    push(await fn());
+  } catch {
+    push("Could not load that. Try again.");
+  }
+}
 
-    history.value.push({ type: "prompt", command: cmd });
-
-    const command = commandRegistry[cmd];
-
-    if (command) {
-        const html = await command.execute();
-        if (html) {
-            history.value.push({ type: "output", html });
-        }
-    } else {
-        history.value.push({
-            type: "output",
-            html: `<p class="text-red-800">Command not found <strong>${cmd}</strong></p>`,
-        });
-    }
-    currentCommand.value = "";
-
+watch(open, async (isOpen) => {
+  const d = dlg.value;
+  if (!d) return;
+  if (isOpen && !d.open) {
+    d.showModal();
     await nextTick();
-    terminalRef.value.scrollTop = terminalRef.value.scrollHeight;
+    input.value?.focus();
+  } else if (!isOpen && d.open) {
+    d.close();
+  }
+});
+
+function onClose() {
+  open.value = false;
+  document.querySelector<HTMLElement>("[data-terminal-toggle]")?.focus();
+}
+
+function onBackdrop(e: MouseEvent) {
+  if (e.target === dlg.value) dlg.value?.close();
 }
 </script>
-<style scoped>
-pre,
-code {
-    white-space: pre-wrap;
-    word-break: break-word;
-}
-:global(a.text-green-400) {
-    color: #ff69b4 !important;
-    text-shadow: 0 0 2px #ff69b4 !important;
-}
 
-:global(a.text-green-400:hover) {
-    color: #ff85c1 !important;
-    text-shadow: 0 0 4px #ff85c1 !important;
-}
-
-:global(a.text-green-400:visited) {
-    color: #ff1493 !important;
-    text-shadow: 0 0 2px #ff1493 !important;
-}
-:root a[class*="text-green-400"] {
-    color: #ff69b4 !important;
-    text-shadow: 0 0 2px #ff69b4 !important;
-    text-decoration: underline !important;
-}
-</style>
+<template>
+  <dialog ref="dlg" class="term" aria-label="Terminal" @close="onClose" @click="onBackdrop">
+    <div class="term__bar">
+      <span>visitor@haflett: ~</span>
+      <button type="button" class="term__close" aria-label="Close terminal" @click="dlg?.close()">
+        esc
+      </button>
+    </div>
+    <div ref="out" class="term__out" role="log" aria-label="Terminal output" tabindex="0">
+      <div
+        v-for="(line, i) in lines"
+        :key="i"
+        :class="line.kind === 'in' ? 'term__line--in' : ''"
+        v-html="line.html"
+      />
+    </div>
+    <form class="term__form" @submit.prevent="run">
+      <label class="term__ps" for="term-input">visitor@haflett:~$</label>
+      <input
+        id="term-input"
+        ref="input"
+        v-model="cmd"
+        class="term__input"
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+      />
+    </form>
+  </dialog>
+</template>
