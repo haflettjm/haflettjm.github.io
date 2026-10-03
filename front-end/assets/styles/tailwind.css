@@ -23,6 +23,7 @@
   --pink: #ff8ac7;
   --pink-strong: #ff5fb2;
   --green: #5ee08f;
+  --green-dim: #3fae6a;
   --warn: #f0cf6a;
   --on-accent: #0c0b0f;
 
@@ -30,7 +31,7 @@
   --glow-pink: 0 0 18px rgb(255 95 178 / 0.4);
   --glow-green: 0 0 14px rgb(94 224 143 / 0.35);
   --scan: rgb(255 120 60 / 0.04);
-  --veil: rgb(12 11 15 / 0.82);
+  --veil: rgb(12 11 15 / 0.94);
 
   /* type families (system stacks: no network requests, no layout shift) */
   --font-mono: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, Consolas,

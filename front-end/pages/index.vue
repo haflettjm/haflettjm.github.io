@@ -4,32 +4,64 @@ import { experience } from "~/content/experience";
 import { projects, systems } from "~/content/projects";
 import { skillGroups } from "~/content/skills";
 
-/* Staggered scroll reveals. Content below the fold is hidden by script only,
-   so it is fully visible without JS, and never when the visitor prefers reduced motion. */
+/* Staggered reveals. Content below the fold is hidden by script only, so it is fully
+   visible without JS and under reduced motion. A plain scroll handler reveals every element
+   at or above the viewport, so jumps (anchor links, End key, restored scroll) can never leave
+   content hidden. */
+let teardown = () => {};
 onMounted(async () => {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const { gsap } = await import("gsap");
-  const { ScrollTrigger } = await import("gsap/ScrollTrigger");
-  gsap.registerPlugin(ScrollTrigger);
-  const items = gsap.utils
-    .toArray<HTMLElement>("[data-reveal]")
-    .filter((el) => el.getBoundingClientRect().top > window.innerHeight * 0.92);
-  gsap.set(items, { opacity: 0, y: 18 });
-  ScrollTrigger.batch(items, {
-    start: "top 92%",
-    once: true,
-    onEnter: (batch) =>
-      gsap.to(batch, {
+  const pending = new Set(
+    gsap.utils
+      .toArray<HTMLElement>("[data-reveal]")
+      .filter((el) => el.getBoundingClientRect().top > window.innerHeight * 0.92),
+  );
+  gsap.set([...pending], { opacity: 0, y: 18 });
+
+  let queued = false;
+  const flush = () => {
+    queued = false;
+    const limit = window.innerHeight * 0.92;
+    const ready = [...pending].filter((el) => el.getBoundingClientRect().top < limit);
+    if (!ready.length) return;
+    ready.forEach((el) => pending.delete(el));
+    // Content the visitor already scrolled past appears instantly. Only what is on
+    // screen animates, with a stagger capped at 0.4s however many elements arrive at once.
+    const passed = ready.filter((el) => el.getBoundingClientRect().bottom < 0);
+    const onScreen = ready.filter((el) => !passed.includes(el));
+    if (passed.length) gsap.set(passed, { opacity: 1, y: 0, clearProps: "transform" });
+    if (onScreen.length) {
+      gsap.to(onScreen, {
         opacity: 1,
         y: 0,
         duration: 0.5,
-        stagger: 0.08,
+        stagger: { amount: Math.min(0.4, 0.08 * onScreen.length) },
         ease: "power2.out",
         overwrite: true,
         clearProps: "transform",
-      }),
-  });
+      });
+    }
+  };
+  const schedule = () => {
+    if (!queued) {
+      queued = true;
+      requestAnimationFrame(flush);
+    }
+  };
+  window.addEventListener("scroll", schedule, { passive: true });
+  window.addEventListener("resize", schedule);
+  window.addEventListener("hashchange", schedule);
+  window.addEventListener("load", schedule);
+  setTimeout(schedule, 150);
+  teardown = () => {
+    window.removeEventListener("scroll", schedule);
+    window.removeEventListener("resize", schedule);
+    window.removeEventListener("hashchange", schedule);
+    window.removeEventListener("load", schedule);
+  };
 });
+onBeforeUnmount(() => teardown());
 </script>
 
 <template>
@@ -71,15 +103,18 @@ onMounted(async () => {
             <h4 class="card__title">{{ s.title }}</h4>
             <div class="card__meta">{{ s.org }}</div>
             <p>{{ s.blurb }}</p>
-            <ul class="kpis">
-              <li v-for="k in s.kpis" :key="k">{{ k }}</li>
+            <ul class="role-stats">
+              <li v-for="k in s.stats" :key="k.label">
+                <strong>{{ k.value }}</strong>
+                <span>{{ k.label }}</span>
+              </li>
             </ul>
             <div class="card__note">Employer system, described from public facts. No code shown.</div>
           </article>
         </div>
 
         <h3 class="group-title">Projects</h3>
-        <div class="cards">
+        <div class="cards cards--wide">
           <article v-for="p in projects" :key="p.id" class="card" data-reveal data-project :data-project-id="p.id">
             <div class="card__head">
               <h4 class="card__title">{{ p.title }}</h4>

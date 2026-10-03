@@ -362,6 +362,31 @@ try {
       const stillDone = await inPage(page, () => document.querySelector("[data-boot]")?.getAttribute("data-boot") === "done");
       check("[1440] boot does not replay on a second visit", done && stillDone);
     }
+    // content must never stay hidden after a jump scroll or an anchor click
+    {
+      const jump = await ctx.newPage();
+      await jump.goto(base, { waitUntil: "networkidle" });
+      await jump.waitForTimeout(1500);
+      await inPage(jump, () => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "instant" }));
+      await jump.waitForTimeout(1200);
+      const hiddenAfterJump = await inPage(jump, () =>
+        [...document.querySelectorAll("[data-reveal]")].filter((e) => Number(getComputedStyle(e).opacity) < 1).length);
+      check(`[${vp.name}] jumping to the bottom leaves nothing hidden`, hiddenAfterJump === 0, `${hiddenAfterJump} hidden`);
+      await jump.close();
+
+      const anchor = await ctx.newPage();
+      await anchor.goto(base, { waitUntil: "networkidle" });
+      await anchor.waitForTimeout(1500);
+      await anchor.click('nav a[href="#contact"]');
+      await anchor.waitForTimeout(1500);
+      const contactShown = await inPage(anchor, () => {
+        const h = document.querySelector("#contact h2");
+        const r = h.getBoundingClientRect();
+        return Number(getComputedStyle(h).opacity) === 1 && r.top >= 0 && r.top < window.innerHeight;
+      });
+      check(`[${vp.name}] clicking the contact link shows the contact heading`, contactShown);
+      await anchor.close();
+    }
     await ctx.close();
   }
 

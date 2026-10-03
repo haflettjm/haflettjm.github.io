@@ -1,3 +1,5 @@
+import type { Stat } from "./profile";
+
 export type ProjectStatus = "live" | "early" | "private" | "in progress";
 
 export interface Project {
@@ -16,7 +18,7 @@ export interface System {
   title: string;
   org: string;
   blurb: string;
-  kpis: string[];
+  stats: Stat[];
 }
 
 /** Employer systems, described from public facts. No code. */
@@ -27,7 +29,11 @@ export const systems: System[] = [
     org: "Jabil (Badger Technologies), 2023 - 2025",
     blurb:
       "Spark pipelines over 8K camera imagery and telemetry into a lakehouse with BigQuery and Snowflake layers, across AWS, GCP and Azure.",
-    kpis: ["35,000 robots", "about 25 GB per robot per day", "99.99% availability"],
+    stats: [
+      { value: "35,000", label: "robots in the fleet" },
+      { value: "25 GB", label: "per robot per day" },
+      { value: "99.99%", label: "platform availability" },
+    ],
   },
   {
     id: "realtime-apis",
@@ -35,7 +41,10 @@ export const systems: System[] = [
     org: "Live-Commerce Startup, 2025 - Present",
     blurb:
       "Multi-tenant REST and gRPC services on AlloyDB and ClickHouse, plus event-driven LLM inference on vLLM with Pub/Sub and KEDA autoscaling.",
-    kpis: ["100K requests/sec", "99.9%+ availability"],
+    stats: [
+      { value: "100K", label: "requests/sec" },
+      { value: "99.9%+", label: "availability" },
+    ],
   },
   {
     id: "catalog-search",
@@ -43,7 +52,10 @@ export const systems: System[] = [
     org: "Air Liquide / Airgas, 2021 - 2022",
     blurb:
       "Spark indexing and ETL over a product catalog of millions of SKUs, powering downstream search and recommendation services.",
-    kpis: ["millions of SKUs", "15% faster search"],
+    stats: [
+      { value: "Millions", label: "of SKUs indexed" },
+      { value: "15%", label: "faster search queries" },
+    ],
   },
 ];
 

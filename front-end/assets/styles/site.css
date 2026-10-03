@@ -275,9 +275,9 @@ a:hover {
   padding-top: var(--space-2);
 }
 .stats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-4) var(--space-6);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+  gap: var(--space-4) var(--space-5);
   padding-top: var(--space-4);
 }
 .stats li {
@@ -362,6 +362,9 @@ a:hover {
   color: var(--green);
   user-select: none;
 }
+.face .dim {
+  color: var(--green-dim);
+}
 @media (prefers-reduced-motion: no-preference) {
   .cursor::after {
     content: "_";
@@ -381,6 +384,9 @@ a:hover {
   display: grid;
   gap: var(--space-4);
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+}
+.cards--wide {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr));
 }
 .card {
   display: flex;
