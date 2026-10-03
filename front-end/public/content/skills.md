@@ -1,55 +1,56 @@
-# 🛠️ Technical Skills
+# Technical Skills
 
-A breakdown of the tools, technologies, and domains I specialize in — with an emphasis on performance, scalability, and automation.
-
----
-
-## ⚙️ DevOps & Infrastructure
-
-- Infrastructure as Code: **Terraform**, **Pulumi**, **CloudFormation**
-- Containerization: **Docker**, **Podman**
-- Orchestration: **Kubernetes**, **Helm**, **Rancher**
-- CI/CD Pipelines: **GitHub Actions**, **GitLab CI**, **Jenkins**
-- Monitoring & Logging: **Prometheus**, **Grafana**, **ELK Stack**
-- Cloud Providers: **AWS**, **Azure**, **DigitalOcean**
+What I build with. Items marked *learning* are personal projects, not yet production experience.
 
 ---
 
-## 🔧 Backend & Systems Programming
+## AI & LLM Engineering
 
-- Languages: **Go**, **Python**, **Bash**
-- Web Frameworks: **Gin**, **Echo**, **FastAPI**
-- Message Queues: **RabbitMQ**, **Kafka**
-- Databases: **PostgreSQL**, **Redis**, **MongoDB**
-
----
-
-## 🌐 Web Development
-
-- Frontend Frameworks: **Nuxt 3**, **Vue.js**, **Angular**
-- Styling: **Tailwind CSS**, **SASS**, **CSS3**
-- State & APIs: **Pinia**, **Axios**, **REST/JSON**
+- LLM-powered features in production, with evaluation and tracing to catch regressions
+- Model serving: **vLLM**, **RunPod** serverless GPUs, **AWS Bedrock**
+- Event-driven inference: Pub/Sub queues, retries, **KEDA** autoscaling
+- Agent tooling: **Anthropic API**, tool use, **MCP** servers, local inference with **Ollama**
+- MLOps: versioned datasets, model and data platforms across AWS, GCP and Azure
+- *Learning*: **PyTorch**, **OCR models**
 
 ---
 
-## 🔐 Security & Networking
+## Data Engineering
 
-- TLS/SSL Management, Reverse Proxies, **Nginx**, **Traefik**
-- Authentication: **OAuth**, **JWT**
-- Basic Threat Modeling & Linux Hardening
-
----
-
-## 💡 Tools & Practices
-
-- Git & GitHub best practices
-- Agile / SCRUM workflows
-- Debugging & profiling complex systems
-- Documentation & architecture diagrams (Mermaid, PlantUML)
+- Processing: **Apache Spark**, ETL/ELT, batch and streaming pipelines
+- Messaging: **Kafka**, **Pub/Sub**
+- Orchestration and transforms: **Dagster**, **Dataform**, **Airflow**
+- Table formats: **Iceberg**, **Delta Lake**
+- Warehouses and stores: **BigQuery**, **Snowflake**, **Redshift**, **Athena**, **ClickHouse**, **PostgreSQL**, **AlloyDB**, **MongoDB**
 
 ---
 
-Always learning, always refining. If you want to dive into any of these areas, just type:
+## Backend & Distributed Systems
+
+- Languages: **TypeScript**, **Go**, **Python**, **Java**, **SQL**
+- Services: REST and **gRPC** APIs, microservices, multi-tenant SaaS
+- Patterns: event-driven architecture, queues and workers, retries and failure recovery, rate limiting, caching
+
+---
+
+## Cloud & Infrastructure
+
+- Cloud: **GCP**, **AWS**, **Azure**
+- Kubernetes: **K3s**, **Helm**, **ArgoCD**
+- Infrastructure as Code: **Terraform**, **CDKTF**, **Pulumi**, **Ansible**
+- CI/CD: **GitHub Actions**, **GitLab CI**
+- Containers: **Docker**, **Podman**
+
+---
+
+## Observability
+
+- **OpenTelemetry**, **Prometheus**, **Grafana**, **New Relic**, Cloud Monitoring
+- SLO alerting, on-call, post-mortems
+
+---
+
+Want the receipts? Type:
 
 ```bash
 $~ projects

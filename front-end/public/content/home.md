@@ -1,14 +1,14 @@
 # Welcome to **Jacob Haflett**’s Portfolio
-> ⚙️ **DevOps Engineer • Cloud Architect • Backend Developer**
+> **Senior Backend & AI Platform Engineer • Data Pipelines • Distributed Systems**
 ---
-Welcome to my **interactive** terminal portfolio it is a **markdown** **static-site** renderer.
+I build data platforms, multi-tenant APIs and LLM-powered systems, and run them in production.
 Use the command line below to navigate and explore my work.
 ## Available Sections
-- **`about`** – Who I am, what I believe in, and how I work
-- **`projects`** – Featured work with descriptions, tools, links, demos
-- **`contact`** – Get in touch with me directly
-- **`resume`** – View or download my full resume
-- **`skills`**  – Technologies and domains I specialize in
+- **`about`**: Who I am and how I work
+- **`projects`**: LLM tools, pipelines and infrastructure, with source links
+- **`contact`**: Get in touch with me directly
+- **`resume`**: View my full resume
+- **`skills`**: Technologies and domains I work in
 ---
 ## Try This
 You can type:
@@ -22,10 +22,9 @@ $~ projects
 $~ contact
 ```
 ---
-🧠 Tip: You can clear the screen anytime with:
+Tip: You can clear the screen anytime with:
 ```bash
 $~ clear
 ```
 ---
 Thanks for visiting.
-Use the terminal — it's the best way to get to know me.

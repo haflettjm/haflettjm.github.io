@@ -1,27 +1,36 @@
-# My Projects - (Still-UNDER CONSTRUCTION!!!)
-***These are clickable Links! to the source!***
+# Projects
+
+Links go to the source. Status is noted where a project is early.
 
 ---
----
 
-# **[50 Projects to Save me from tutorials](https://github.com/haflettjm/SalvationFromTutorialHell)**
-**Description:**
-  A self-directed engineering portfolio designed to eliminate dependency on tutorials. This repo contains 50 real-world, full-stack projects covering computer science fundamentals, backend systems, DevOps workflows, and distributed infrastructure — built entirely by me using Golang, TypeScript, and modern tools like Docker, Kubernetes, and Prometheus. PS: I've put off this project for more then 2 years I'm going to finish it darn it!
+# **[llm-tutor](https://github.com/haflettjm/llm-tutor)**
+**AI / LLM** • Go, Claude CLI, MCP
 
----
-# **[My Portfolio](https://github.com/haflettjm/haflettjm.github.io)**
-**Description:**
-  A terminal style portfolio website that renders the content from markdown files. This repo contains the source code for this very site!
+A Socratic programming tutor for the editor. A Go backend selects a tutor persona, composes the prompt, and drives the `claude` CLI one turn at a time with schema-checked replies, session resume and MCP callbacks. Progress is tracked locally so it remembers what you have actually demonstrated. *Status: early. The Neovim plugin and Zed bridge are not verified end to end.*
 
 ---
-# **[Universal Chat Bridge](https://github.com/haflettjm/UVCB)**
-**Description:**
-  UVCB (Universal Virtual Chat Bridge) is a universal chat app bridge for connecting conversations across a wide range of messaging platforms—both popular and niche. It supports not just text messaging but also voice and video communication, allowing seamless cross-platform interoperability. The backend and bot support is written in Golang (working on VRc Integration soon).
+
+# **Agent server on a Mac Studio**
+**AI / Infra** • Ansible, Ollama, Caddy, Prometheus, Grafana
+
+An Ansible playbook that turns a Mac Studio M3 Ultra into an LLM agent host. Ollama runs natively for Metal GPU acceleration, Caddy fronts it, monitoring is built in, and each agent gets an isolated workspace. (Private repo.)
 
 ---
+
 # **[Home-lab](https://github.com/haflettjm/home-lab)**
-**Description:**
-  This repository manages the infrastructure, configuration, and application deployment for a self-hosted Kubernetes cluster built from scratch using physical machines in a home-lab environment. The project is designed to scale from lightweight workloads to production-grade services, with future expansion into cloud-backed hybrid infrastructure. It is written with the idea of deploying to a hybrid hosting solution!
+**Infra** • K3s, Ansible, Pulumi, ArgoCD, WireGuard
+
+A self-hosted Kubernetes platform on physical hardware. Rocky Linux and Proxmox underneath, Ansible for node and K3s setup, Pulumi (Go) for VMs and the Linode edge, ArgoCD for GitOps, and a WireGuard tunnel for public ingress.
 
 ---
+
+# **[UVCB](https://github.com/haflettjm/UVCB)**
+**Backend** • Go, NATS
+
+A chat bridge in Go built around a NATS message bus. Discord text ingest works today; voice, video and more platforms are planned. *Status: early.*
+
 ---
+
+# **[This site](https://github.com/haflettjm/haflettjm.github.io)**
+A terminal-style portfolio built with Nuxt 3 and Tailwind that renders its content from markdown.

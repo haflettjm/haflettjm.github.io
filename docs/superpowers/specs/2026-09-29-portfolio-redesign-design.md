@@ -156,7 +156,27 @@ content — but final copy can't ship without them:
   gracefully).
 - Basic Lighthouse pass for animation performance / CLS from the boot sequence.
 
-## 10. Risks
+## 10. Decisions from Jev (2026-10-02)
+
+Chosen by running the open questions through TypeSafe's Jev (`jev-latest`) with the
+goal "more jobs, contracts and technical credibility". These supersede earlier
+sections where they conflict (notably the hero identity in section 4).
+
+| Decision | Jev's answer | Confidence |
+| --- | --- | --- |
+| Visual direction | Signal (dark editorial, amber accent) | 0.89 |
+| Hero identity | Senior Backend and AI Platform Engineer, chosen by Jacob and checked with Jev (0.76); keep data and Spark work in the subhead because Jev flagged a 0.58 risk of being missed for data roles | 0.67 |
+| Terminal | Optional toggle, all content visible by default | 0.99 |
+| Work presentation | Production case studies first, then repo cards with honest status labels | 1.00 |
+| Animation | Subtle and purposeful, reduced-motion safe | 0.96 |
+| Contract CTA section | Add (0.84) | n/a |
+| Resume PDF download | Add (0.83) | n/a |
+
+Featuring probabilities: home-lab 0.69, Mac Studio server 0.63 (only after the repo
+is cleaned up), llm-tutor 0.57 (early-stage label), UVCB 0.30, vidprocme 0.10,
+ocr-learn 0.07. Feature the first three; leave the rest off until they are built.
+
+## 11. Risks
 
 - GSAP adds bundle weight (~50-70KB core + ScrollTrigger, tree-shakeable) — acceptable
   for a portfolio site, but worth confirming Lighthouse performance score stays

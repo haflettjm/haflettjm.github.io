@@ -1,38 +1,27 @@
 # About Me
 
-Hi, I’m **Jacob Haflett** — a DevOps engineer, cloud architect, and full-stack infrastructure builder with a passion for doing things the right way, at scale, and under pressure.
+Hi, I’m **Jacob Haflett**. I’m a backend and data engineer who builds data-intensive platforms from idea to stable production, with a growing focus on LLM-powered systems.
 
-## 🧠 My Engineering Philosophy
+## What I Do
 
-I build with purpose: efficient, reliable, reproducible infrastructure backed by strong automation and observable performance. Whether it’s Kubernetes on bare metal or cost-optimized cloud pipelines, I approach every project like it’s going to production because eventually, it will.
+I design the pipelines, APIs and infrastructure that data and AI features depend on. That has meant Spark pipelines over a 35,000-robot fleet, multi-tenant APIs handling 100K requests per second, and event-driven inference infrastructure serving foundation models on GPUs.
 
-I value:
-• **Simplicity in tooling**
-• **Clarity in documentation**
-• **Zero-waste automation**
-• **Infrastructure that explains itself**
+I have been on call at every role, so I build with failure in mind: retries, autoscaling, tracing, SLO alerts and post-mortems that actually reduce time to recovery.
 
-## 🔧 What I Work With
+## How I Work
 
-• Building and scaling cloud-agnostic infrastructure  
-• Automating environments with Terraform, Helm, and Ansible  
-• Running Kubernetes clusters across hybrid setups  
-• Monitoring systems with Prometheus and Grafana  
-• Writing robust backend systems in **Go** and **Python**  
-• Managing pipelines in GitHub Actions, GitLab, and Jenkins  
-• Reducing cloud costs through right-sizing, visibility, and rethinking architecture
+- **Simple tooling**: the boring option that I can operate at 3 a.m.
+- **Clear documentation**: systems that explain themselves
+- **Measured results**: if I cannot measure it, I do not claim it
+- **Ownership**: from the model call down to the cluster and the dashboard
 
-## 🧑‍💻 Why I Built This Portfolio
+## Outside of Work
 
-This terminal-style portfolio is a live demonstration of what I care about most:  
-Clean interfaces  
-Fast feedback  
-Real infrastructure-backed thinking  
-A bit of fun and aesthetic flair
+I build in public on GitHub: an editor-based Socratic tutor on the Anthropic API and MCP, a distributed video pipeline with batched LLM analysis, and a home-lab Kubernetes platform managed with GitOps.
 
-## ⚡ What’s Next
+## Want to Talk?
 
-I’m always building — whether it’s internal tools, open-source utilities, or the next piece of my homegrown Kubernetes lab. If you want to collaborate, hire, or just talk infrastructure, I’d love to hear from you.
+If you are hiring, collaborating, or just want to talk data platforms and AI pipelines, I would like to hear from you.
 
 ```bash
 $~ contact
