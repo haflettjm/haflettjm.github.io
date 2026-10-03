@@ -197,6 +197,58 @@ try {
     check(`[${vp.name}] each section has an h2`, sections.length === 4 && sections.every((s) => s.h2));
     check(`[${vp.name}] all sections visible without clicks`, sections.length === 4 && sections.every((s) => s.visible));
 
+    // portrait: the head must be visible (ink in the middle, empty corners)
+    const face = await inPage(page, () => {
+      const f = document.querySelector(".face3");
+      const box = f.getBoundingClientRect();
+      const mode = f.dataset.face;
+      let grid = null;
+      if (mode === "gpu") {
+        const c = f.querySelector("canvas");
+        const x = document.createElement("canvas");
+        x.width = c.width;
+        x.height = c.height;
+        const g = x.getContext("2d");
+        g.drawImage(c, 0, 0);
+        const d = g.getImageData(0, 0, x.width, x.height).data;
+        grid = { w: x.width, h: x.height, on: (xx, yy) => d[(yy * x.width + xx) * 4 + 3] > 20 };
+      } else if (mode === "ascii") {
+        const rows = f.querySelector("pre").textContent.split("\n").filter(Boolean);
+        grid = { w: rows[0].length, h: rows.length, on: (xx, yy) => rows[yy][xx] !== " " };
+      }
+      const ink = (x0, y0, x1, y1) => {
+        if (!grid) return -1;
+        let n = 0, t = 0;
+        for (let yy = Math.floor(y0 * grid.h); yy < Math.floor(y1 * grid.h); yy++)
+          for (let xx = Math.floor(x0 * grid.w); xx < Math.floor(x1 * grid.w); xx++) { t++; if (grid.on(xx, yy)) n++; }
+        return t ? n / t : -1;
+      };
+      return {
+        mode, w: box.width, h: box.height,
+        all: ink(0, 0, 1, 1), center: ink(0.3, 0.3, 0.7, 0.7),
+        topLeft: ink(0, 0, 0.2, 0.25), topRight: ink(0.8, 0, 1, 0.25),
+      };
+    });
+    const fr = (n) => (typeof n === "number" ? n.toFixed(3) : String(n));
+    check(`[${vp.name}] portrait rendered (gpu or ascii)`, face.mode === "gpu" || face.mode === "ascii", face.mode);
+    check(`[${vp.name}] portrait box is portrait-shaped and at least 140px wide`,
+      face.w >= 140 && face.h / face.w > 1.3 && face.h / face.w < 1.7, `${face.w}x${face.h}`);
+    check(`[${vp.name}] portrait has ink`, face.all > 0.06 && face.all < 0.5, fr(face.all));
+    check(`[${vp.name}] portrait: the head fills the middle`, face.center > 0.2, fr(face.center));
+    check(`[${vp.name}] portrait: the background stays empty so the head stands out`,
+      face.topLeft < 0.06 && face.topRight < 0.06 && face.center > 4 * Math.max(face.topLeft, face.topRight, 0.01),
+      `${fr(face.topLeft)} ${fr(face.topRight)} vs ${fr(face.center)}`);
+
+    // halftone field: decorative, never blocks clicks
+    const field = await inPage(page, () => {
+      const c = document.querySelector("canvas.field");
+      if (!c) return null;
+      const cs = getComputedStyle(c);
+      return { hidden: c.hidden, aria: c.getAttribute("aria-hidden"), pe: cs.pointerEvents, w: c.getBoundingClientRect().width, vw: window.innerWidth };
+    });
+    check(`[${vp.name}] halftone field is decorative and click-through`,
+      !!field && field.aria === "true" && field.pe === "none" && field.w >= field.vw - 1, JSON.stringify(field));
+
     // computed style rules
     const css = await inPage(page, () => {
       const visible = (el) => {
@@ -347,6 +399,37 @@ try {
       await page.waitForTimeout(250);
       check(`[${vp.name}] Escape closes the terminal`, !(await page.$eval("dialog.term", (d) => d.open)));
       check(`[${vp.name}] focus returns to the toggle`, await inPage(page, () => document.activeElement?.hasAttribute("data-terminal-toggle")));
+
+      // llm-tutor demo
+      await page.click('button:has-text("run llm-tutor")');
+      await page.waitForTimeout(300);
+      check(`[${vp.name}] llm-tutor demo opens`, await page.$eval("dialog.demo-dlg", (d) => d.open));
+      await page.locator(".demo-dlg .choice").first().click();
+      await page.waitForTimeout(250);
+      const chat = await page.locator(".demo-dlg .chat").innerText();
+      check(`[${vp.name}] tutor answers a correct choice and moves on`, /Right\./.test(chat) && /collect all three results/.test(chat), chat.slice(-120));
+      const dOverflow = await inPage(page, () => {
+        const d = document.querySelector("dialog.demo-dlg");
+        return { doc: document.documentElement.scrollWidth - window.innerWidth, dlg: d.scrollWidth - d.clientWidth };
+      });
+      check(`[${vp.name}] tutor demo has no horizontal overflow`, dOverflow.doc <= 0 && dOverflow.dlg <= 1, JSON.stringify(dOverflow));
+      await page.keyboard.press("Escape");
+      await page.waitForTimeout(250);
+      check(`[${vp.name}] Escape closes the demo and focus returns to its button`,
+        !(await page.$eval("dialog.demo-dlg", (d) => d.open)) &&
+          (await inPage(page, () => /run llm-tutor/.test(document.activeElement?.textContent || ""))));
+
+      // home-lab demo
+      await page.click('button:has-text("run home-lab")');
+      await page.waitForTimeout(300);
+      check(`[${vp.name}] home-lab demo opens`, await page.$eval("dialog.demo-dlg", (d) => d.open));
+      await page.click('g.node[aria-label^="worker-01"]');
+      await page.waitForTimeout(200);
+      const lab = await page.locator(".demo-dlg .info").innerText();
+      check(`[${vp.name}] selecting a node shows where it is defined`, /wireguard_home/.test(lab) && /defined in/.test(lab), lab.slice(0, 120));
+      await page.keyboard.press("Escape");
+      await page.waitForTimeout(250);
+      check(`[${vp.name}] home-lab demo closes`, !(await page.$eval("dialog.demo-dlg", (d) => d.open)));
     }
 
     const clsEnd = await inPage(page, () => window.__cls);

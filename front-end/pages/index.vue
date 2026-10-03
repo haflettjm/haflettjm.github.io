@@ -4,6 +4,12 @@ import { experience } from "~/content/experience";
 import { projects, systems } from "~/content/projects";
 import { skillGroups } from "~/content/skills";
 
+const demo = useState<string | null>("demo", () => null);
+const terminal = useState<boolean>("terminal-open", () => false);
+const demoIds = ["llm-tutor", "home-lab"];
+const demoProjects = projects.filter((p) => demoIds.includes(p.id));
+const otherProjects = projects.filter((p) => !demoIds.includes(p.id));
+
 /* Staggered reveals. Content below the fold is hidden by script only, so it is fully
    visible without JS and under reduced motion. A plain scroll handler reveals every element
    at or above the viewport, so jumps (anchor links, End key, restored scroll) can never leave
@@ -66,44 +72,83 @@ onBeforeUnmount(() => teardown());
 
 <template>
   <div>
-    <section id="top" class="hero" aria-labelledby="hero-title">
-      <div class="wrap hero__grid">
-        <div class="hero__text">
-          <h1 id="hero-title" class="hero__title">{{ profile.name }}</h1>
-          <p class="role" data-role>{{ profile.role }}</p>
-          <p class="hero__lede">{{ profile.tagline }}</p>
-          <p>{{ profile.summary }}</p>
-          <div class="cta">
-            <a class="btn btn--primary" :href="profile.links.resume">Resume (PDF)</a>
-            <a class="btn" href="#contact">Contact</a>
-            <a class="btn btn--ghost" :href="profile.links.github" target="_blank" rel="noopener">GitHub</a>
-          </div>
-          <ul class="stats">
-            <li v-for="s in profile.stats" :key="s.label">
-              <strong>{{ s.value }}</strong>
-              <span>{{ s.label }}</span>
-            </li>
-          </ul>
-        </div>
-        <div class="hero__side">
-          <BootLog />
-          <div class="tty">
-            <AsciiPortrait />
-          </div>
+    <section id="top" class="hero wrap" aria-labelledby="hero-title">
+     <div class="hero__grid">
+      <div class="hero__main">
+      <div class="g-cap" aria-hidden="true"><span>&gt;&gt; SESSION_OPEN</span><span>TTY1</span></div>
+      <h1 id="hero-title" class="glitch"><GlitchTitle :text="profile.name" /></h1>
+      <div class="g-sub" data-role>{{ profile.role }}</div>
+      <p class="lede">{{ profile.tagline }}</p>
+      <div class="cta">
+        <a class="btn" :href="profile.links.resume">Resume (PDF)</a>
+        <a class="btn" href="#contact">Contact</a>
+        <a class="btn btn--ghost" :href="profile.links.github" target="_blank" rel="noopener">GitHub</a>
+      </div>
+
+      <BootLog />
+      </div>
+
+      <div class="fetch">
+        <AsciiFace />
+        <div class="fetch__info">
+          <div class="fetch__host">jacob@haflett</div>
+          <dl>
+            <dt>role</dt>
+            <dd>{{ profile.role }}</dd>
+            <dt>builds</dt>
+            <dd>data platforms, multi-tenant APIs, LLM inference</dd>
+            <dt>prod</dt>
+            <dd>100K req/s · 35,000 robots · 99.99% uptime</dd>
+            <dt>stack</dt>
+            <dd>Go, TypeScript, Python, Spark, Kubernetes</dd>
+            <dt>clouds</dt>
+            <dd>GCP, AWS, Azure</dd>
+            <dt>demos</dt>
+            <dd>
+              <button type="button" class="cmd tap" @click="demo = 'llm-tutor'">run llm-tutor</button>
+              <button type="button" class="cmd tap" @click="demo = 'home-lab'">run home-lab</button>
+            </dd>
+            <dt>shell</dt>
+            <dd>
+              <button type="button" class="cmd tap" @click="terminal = true">open terminal</button>
+            </dd>
+          </dl>
         </div>
       </div>
+     </div>
     </section>
 
     <section id="work" class="section" aria-labelledby="work-title">
       <div class="wrap">
         <h2 id="work-title" class="section__title" data-reveal>Selected work</h2>
+
+        <h3 class="group-title">Working demos</h3>
+        <div class="cards cards--wide">
+          <article v-for="p in demoProjects" :key="p.id" class="card" data-reveal data-project :data-project-id="p.id">
+            <div class="card__head">
+              <h4 class="card__title">{{ p.title }}</h4>
+              <span class="tag" :class="`tag--${p.status.replace(' ', '-')}`" data-status>{{ p.status }}</span>
+            </div>
+            <div class="card__meta">{{ p.kind }}</div>
+            <p>{{ p.blurb }}</p>
+            <ul class="chips-row">
+              <li v-for="t in p.stack" :key="t" class="chip-pill">{{ t }}</li>
+            </ul>
+            <div v-if="p.note" class="card__note">{{ p.note }}</div>
+            <div class="card__links">
+              <button type="button" class="btn" @click="demo = p.id">Run demo</button>
+              <a v-if="p.repo" class="btn btn--ghost" :href="p.repo" target="_blank" rel="noopener">Source</a>
+            </div>
+          </article>
+        </div>
+
         <h3 class="group-title">Production systems</h3>
         <div class="cards">
           <article v-for="s in systems" :key="s.id" class="card" data-reveal data-system>
             <h4 class="card__title">{{ s.title }}</h4>
             <div class="card__meta">{{ s.org }}</div>
             <p>{{ s.blurb }}</p>
-            <ul class="role-stats">
+            <ul class="stat-row">
               <li v-for="k in s.stats" :key="k.label">
                 <strong>{{ k.value }}</strong>
                 <span>{{ k.label }}</span>
@@ -113,21 +158,21 @@ onBeforeUnmount(() => teardown());
           </article>
         </div>
 
-        <h3 class="group-title">Projects</h3>
+        <h3 class="group-title">More projects</h3>
         <div class="cards cards--wide">
-          <article v-for="p in projects" :key="p.id" class="card" data-reveal data-project :data-project-id="p.id">
+          <article v-for="p in otherProjects" :key="p.id" class="card" data-reveal data-project :data-project-id="p.id">
             <div class="card__head">
               <h4 class="card__title">{{ p.title }}</h4>
               <span class="tag" :class="`tag--${p.status.replace(' ', '-')}`" data-status>{{ p.status }}</span>
             </div>
             <div class="card__meta">{{ p.kind }}</div>
             <p>{{ p.blurb }}</p>
-            <ul class="chips">
-              <li v-for="t in p.stack" :key="t" class="chip">{{ t }}</li>
+            <ul class="chips-row">
+              <li v-for="t in p.stack" :key="t" class="chip-pill">{{ t }}</li>
             </ul>
             <div v-if="p.note" class="card__note">{{ p.note }}</div>
             <div v-if="p.repo" class="card__links">
-              <a class="btn btn--ghost" :href="p.repo" target="_blank" rel="noopener">Source on GitHub</a>
+              <a class="btn btn--ghost" :href="p.repo" target="_blank" rel="noopener">Source</a>
             </div>
           </article>
         </div>
@@ -144,7 +189,7 @@ onBeforeUnmount(() => teardown());
               <h3 class="role-item__title">{{ r.title }}</h3>
               <div class="role-item__org">{{ r.org }}</div>
               <p>{{ r.framing }}</p>
-              <ul class="role-stats">
+              <ul class="stat-row">
                 <li v-for="s in r.stats" :key="s.label">
                   <strong>{{ s.value }}</strong>
                   <span>{{ s.label }}</span>
@@ -165,15 +210,15 @@ onBeforeUnmount(() => teardown());
         <div class="skill-groups">
           <div v-for="g in skillGroups" :key="g.id" class="skill-group" data-reveal>
             <h3>{{ g.title }}</h3>
-            <ul class="chips">
+            <ul class="chips-row">
               <li
                 v-for="s in g.skills"
                 :key="s.name"
-                class="chip"
-                :class="{ 'chip--growth': s.growth }"
+                class="chip-pill"
+                :class="{ 'chip-pill--growth': s.growth }"
                 :data-growth="s.growth ? 'true' : undefined"
               >
-                {{ s.name }}<span v-if="s.growth" class="chip__tag">learning</span>
+                {{ s.name }}<span v-if="s.growth" class="chip-pill__tag">learning</span>
               </li>
             </ul>
           </div>
@@ -187,7 +232,7 @@ onBeforeUnmount(() => teardown());
         <h2 id="contact-title" class="section__title" data-reveal>Contact</h2>
         <p>{{ profile.availability }}</p>
         <div class="cta">
-          <a class="btn btn--primary" :href="profile.links.email">Email {{ profile.email }}</a>
+          <a class="btn" :href="profile.links.email">Email {{ profile.email }}</a>
           <a class="btn btn--ghost" :href="profile.links.github" target="_blank" rel="noopener">GitHub</a>
           <a class="btn btn--ghost" :href="profile.links.resume">Resume (PDF)</a>
         </div>

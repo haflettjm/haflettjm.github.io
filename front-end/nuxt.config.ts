@@ -16,7 +16,10 @@ export default defineNuxtConfig({
         },
         { name: "theme-color", content: "#0c0b0f" },
       ],
-      link: [{ rel: "icon", href: "/favicon.ico" }],
+      link: [
+        { rel: "icon", href: "/favicon.ico" },
+        { rel: "preload", as: "font", type: "font/woff2", href: "/fonts/jetbrains-mono-latin.woff2", crossorigin: "anonymous" },
+      ],
     },
   },
 });

@@ -1,14 +1,13 @@
 <script setup lang="ts">
 /*
- * Decorative boot log. It never gates content: the hero renders fully before
- * this plays, it is skippable, it plays once per browser session, and it is
- * skipped entirely when the visitor prefers reduced motion.
+ * Decorative boot log. It never gates content: the hero renders fully before this plays,
+ * it is skippable, it plays once per browser session, and it is skipped entirely when the
+ * visitor prefers reduced motion.
  */
 const lines = [
   "mounting /home/jacob",
-  "loading experience (4 roles)",
-  "linking projects: llm-tutor, home-lab",
-  "ready: senior backend and ai platform engineer",
+  "loading experience (4 roles, 5+ yrs)",
+  "linking demos: llm-tutor, home-lab",
 ];
 const KEY = "boot-seen";
 const state = ref<"playing" | "done">("done");
@@ -37,7 +36,7 @@ async function play() {
     opacity: 1,
     x: 0,
     duration: 0.25,
-    stagger: 0.28,
+    stagger: 0.3,
     ease: "power1.out",
   });
 }
@@ -63,18 +62,12 @@ onBeforeUnmount(() => timeline?.kill());
 </script>
 
 <template>
-  <div class="tty">
-    <div class="tty__bar">
-      <span>visitor@haflett: ~</span>
-      <button type="button" data-skip-boot @click="onButton">
-        {{ state === "playing" ? "[ skip ]" : "[ replay ]" }}
-      </button>
+  <div class="boot">
+    <div ref="box" aria-hidden="true" :data-boot="state">
+      <div v-for="line in lines" :key="line" data-boot-line>[ ok ] {{ line }}</div>
     </div>
-    <div ref="box" class="boot" aria-hidden="true" :data-boot="state">
-      <div v-for="line in lines" :key="line" data-boot-line>
-        <b>[ ok ]</b> {{ line }}
-      </div>
-      <div class="cursor" />
-    </div>
+    <button type="button" class="boot__ctl tap" data-skip-boot @click="onButton">
+      {{ state === "playing" ? "[ skip ]" : "[ replay boot ]" }}
+    </button>
   </div>
 </template>
